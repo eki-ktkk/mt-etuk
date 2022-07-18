@@ -1,0 +1,49 @@
+common:
+  output_directory: corpora
+steps:
+- type: remove_duplicates
+  parameters:
+    inputs: [shuf-all.et-uk.et, shuf-all.et-uk.uk]
+    outputs: [dedup-all.et-uk.et, dedup-all.et-uk.uk]
+- type: filter
+  parameters:
+    inputs: [dedup-all.et-uk.et, dedup-all.et-uk.uk]
+    outputs: [basic-filter-all.et-uk.et, basic-filter-all.et-uk.uk]
+    filters:
+      - LongWordFilter: {}
+      - LengthFilter:
+          name: char
+          unit: char
+          min_length: 10
+          max_length: 1000
+      - LengthFilter:
+          name: word
+          unit: word
+          min_length: 1
+          max_length: 100
+      - LengthRatioFilter:
+          name: word
+          unit: word
+          threshold: 3
+      - CharacterScoreFilter:
+          scripts: [Latin, Cyrillic]
+      - LanguageIDFilter:
+          name: langid
+          id_method: langid
+          languages: [et, uk]
+      - LanguageIDFilter:
+          name: cld2
+          id_method: cld2
+          languages: [et, uk]
+      - TerminalPunctuationFilter: {}
+      - NonZeroNumeralsFilter: {}
+- type: filter
+  parameters:
+    inputs: [basic-filter-all.et-uk.et, basic-filter-all.et-uk.uk]
+    outputs: [laser-filter-all.et-uk.et, laser-filter-all.et-uk.uk]
+    filters:
+       - SentenceEmbeddingFilter:
+           languages: [et,uk]
+           threshold: 0.5
+           nn_model: null
+           chunksize: 200

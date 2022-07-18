@@ -1,0 +1,13 @@
+common:
+  output_directory: corpora
+steps:
+- type: filter
+  parameters:
+    inputs: [missing-part.et, missing-part.uk]
+    outputs: [laser-filter-missing.et-uk.et, laser-filter-missing.et-uk.uk]
+    filters:
+       - SentenceEmbeddingFilter:
+           languages: [et,uk]
+           threshold: 0.5
+           nn_model: null
+           chunksize: 200

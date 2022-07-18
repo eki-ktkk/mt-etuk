@@ -1,0 +1,7 @@
+common:
+  output_directory: corpora
+steps:
+- type: remove_duplicates
+  parameters:
+    inputs: [shuf-all.et-uk.et, shuf-all.et-uk.uk]
+    outputs: [dedup-all.et-uk.et, dedup-all.et-uk.uk]

@@ -1,0 +1,7 @@
+common:
+  output_directory: corpora
+steps:
+- type: remove_duplicates
+  parameters:
+    inputs: [laser-filter-all.et-uk.et, laser-filter-all.et-uk.uk]
+    outputs: [rededup-all.et-uk.et, rededup-all.et-uk.uk]
